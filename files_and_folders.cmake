@@ -1,5 +1,6 @@
-#! Copies FILE to the directory where the executable of your TARGET will be created (you can also specify a third argument to override that destination folder)
+#! Copies FILE to the directory where the executable of your TARGET will be created (you can optionally specify a third argument to override that destination folder)
 #  FILE can be either an absolute or a relative path. If it is relative it will be relative to ${CMAKE_SOURCE_DIR}.
+#  Unlike the default CMake functions this one will re-copy the file whenever it changes
 function(Cool__target_copy_file TARGET FILE)
     # Get OUT_DIR as an optional parameter
     if (${ARGC} GREATER_EQUAL 3)
@@ -23,8 +24,9 @@ function(Cool__target_copy_file TARGET FILE)
     target_sources(${TARGET} PRIVATE ${FILE}) # Required for the custom command to be run when we build our target
 endfunction()
 
-#! Copies FOLDER and all its files to the directory where the executable of your TARGET will be created (you can also specify a third argument to override that destination folder)
+#! Copies FOLDER and all its files to the directory where the executable of your TARGET will be created (you can optionally specify a third argument to override that destination folder)
 #  FOLDER can be either an absolute or a relative path. If it is relative it will be relative to ${CMAKE_SOURCE_DIR}.
+#  Unlike the default CMake functions this one will re-copy the files of the folder whenever they change or a file is added
 function(Cool__target_copy_folder TARGET FOLDER)
     # Get OUT_DIR as an optional parameter
     if (${ARGC} GREATER_EQUAL 3)
