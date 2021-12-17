@@ -15,7 +15,7 @@ Cool__target_copy_folder(${PROJECT_NAME} "my_assets")
 
 Unlike the default CMake functions this one will re-copy the file whenever it changes.
 
-Copies *FILE* to the directory where the executable of your *TARGET* will be created (you can optionally specify a third argument to override that destination folder).
+It copies *FILE* to the directory where the executable of your *TARGET* will be created (you can optionally specify a third argument to override that destination folder).
 *FILE* can be either an absolute or a relative path. If it is relative it will be relative to *${CMAKE_SOURCE_DIR}*.
 
 ```cmake
@@ -26,7 +26,7 @@ Cool__target_copy_file(${PROJECT_NAME} "my_config.json")
 
 Unlike the default CMake functions this one will re-copy the files of the folder whenever they change or a file is added.
 
-Copies *FOLDER* and all its files to the directory where the executable of your *TARGET* will be created (you can optionally specify a third argument to override that destination folder).
+It copies *FOLDER* and all its files to the directory where the executable of your *TARGET* will be created (you can optionally specify a third argument to override that destination folder).
 *FOLDER* can be either an absolute or a relative path. If it is relative it will be relative to *${CMAKE_SOURCE_DIR}*.
 
 ```cmake
