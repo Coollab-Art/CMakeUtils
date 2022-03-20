@@ -11,29 +11,40 @@ Cool__target_copy_folder(${PROJECT_NAME} "my_assets")
 
 ## files_and_folders
 
-### target_copy_file(TARGET FILE OUT_DIR?)
-
-Unlike the default CMake functions this one will re-copy the file whenever it changes.
-
-It copies *FILE* to the directory where the executable of your *TARGET* will be created (you can optionally specify a third argument to override that destination folder).
-*FILE* can be either an absolute or a relative path. If it is relative it will be relative to *${CMAKE_SOURCE_DIR}*.
-
-```cmake
-Cool__target_copy_file(${PROJECT_NAME} "my_config.json")
-```
-
 ### target_copy_folder(TARGET FOLDER OUT_DIR?)
 
-Unlike the default CMake functions this one will re-copy the files of the folder whenever they change or a file is added.
+Unlike the default CMake functions this one will re-copy the files of the folder whenever they change or a file is added
 
-It copies *FOLDER* and all its files to the directory where the executable of your *TARGET* will be created (you can optionally specify a third argument to override that destination folder).
-*FOLDER* can be either an absolute or a relative path. If it is relative it will be relative to *${CMAKE_SOURCE_DIR}*.
+Copies FOLDER and all its files to the directory where the executable of your TARGET will be created (a.k.a. the output directory of your target).
+FOLDER can be either an absolute or a relative path. If it is relative it will be relative to ${CMAKE_SOURCE_DIR}.
+You can optionally specify a third argument to control the output directory, relative to the output directory of your target. 
 
 ```cmake
 Cool__target_copy_folder(${PROJECT_NAME} "my_assets")
 ```
 
+```cmake
+Cool__target_copy_folder(${PROJECT_NAME} "my_assets" "out")
+```
+### Cool__target_copy_file(TARGET FILE OUT_DIR?)
+
+Unlike the default CMake functions this one will re-copy the file whenever it changes.
+
+Copies FILE to the directory where the executable of your TARGET will be created (a.k.a. the output directory of your target).
+FILE can be either an absolute or a relative path. If it is relative it will be relative to ${CMAKE_SOURCE_DIR}.
+You can optionally specify a third argument to control the output directory (and file name), relative to the output directory of your target. 
+
+```cmake
+Cool__target_copy_file(${PROJECT_NAME} "my_config.json")
+```
+
+```cmake
+Cool__target_copy_file(${PROJECT_NAME} "my_config.json" "out/some_config.json")
+```
+
 ### create_file_if_it_doesnt_exist(FILE)
+
+Creates FILE if it doesn't already exist.
 
 ```cmake
 Cool__create_file_if_it_doesnt_exist(${CMAKE_SOURCE_DIR}/imgui.ini)
