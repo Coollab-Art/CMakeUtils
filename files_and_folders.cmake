@@ -1,3 +1,5 @@
+# /!\ NB: you need at least CMake version 3.20 for these functions to work
+
 #! Copies INPUT_FILE to OUTPUT_FILE whenever the INPUT_FILE has changed
 #  Both INPUT_FILE and OUTPUT_FILE must be absolute paths
 function(Cool__target_copy_file_absolute_paths

@@ -2,6 +2,8 @@
 
 Small utility functions for CMake.
 
+**NB:** they require at least CMake version 3.20.
+
 Example usage:
 
 ```cmake
