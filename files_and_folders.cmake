@@ -19,35 +19,44 @@ function(Cool__target_copy_file_absolute_paths
 endfunction()
 
 function(Cool__target_copy_file
-         TARGET
+         TARGET EXE_TARGET
          FILE
 )
     # Get OUT_FILE as an optional parameter
-    if (${ARGC} GREATER_EQUAL 3)
-        set(OUT_FILE $<TARGET_FILE_DIR:${TARGET}>/${ARGV2})
+    if (${ARGC} GREATER_EQUAL 4)
+        set(OUT_FILE $<TARGET_FILE_DIR:${EXE_TARGET}>/${ARGV3})
     else()
         # Get the part of the file path relative to the top-level CMakeLists.txt
         cmake_path(RELATIVE_PATH FILE BASE_DIRECTORY ${CMAKE_SOURCE_DIR} OUTPUT_VARIABLE FILE_RELATIVE_PATH)
         if (NOT FILE_RELATIVE_PATH)
             set(FILE_RELATIVE_PATH ${FILE})
         endif()
-        set(OUT_FILE $<TARGET_FILE_DIR:${TARGET}>/${FILE_RELATIVE_PATH})
+        set(OUT_FILE $<TARGET_FILE_DIR:${EXE_TARGET}>/${FILE_RELATIVE_PATH})
     endif()
     # Add the copy command
     Cool__target_copy_file_absolute_paths(${TARGET}
-        ${FILE}
+        ${CMAKE_SOURCE_DIR}/${FILE_RELATIVE_PATH}
         ${OUT_FILE})
 endfunction()
 
-function(Cool__target_copy_folder TARGET FOLDER)
+function(Cool__target_copy_folder 
+        TARGET EXE_TARGET
+        FOLDER)
+    # Get the part of the folder path relative to CMAKE_SOURCE_DIR (the top-level CMakeLists.txt)
+    cmake_path(RELATIVE_PATH FOLDER BASE_DIRECTORY ${CMAKE_SOURCE_DIR} OUTPUT_VARIABLE FOLDER_RELATIVE_PATH)
+    if (NOT FOLDER_RELATIVE_PATH)
+        set(FOLDER_RELATIVE_PATH ${FOLDER})
+    endif()
+    # Get the absolute folder path
+    set(FOLDER_ABSOLUTE_PATH ${CMAKE_SOURCE_DIR}/${FOLDER_RELATIVE_PATH})
     # Copy each file
-    file(GLOB_RECURSE FILES CONFIGURE_DEPENDS ${FOLDER}/*)
+    file(GLOB_RECURSE FILES CONFIGURE_DEPENDS ${FOLDER_ABSOLUTE_PATH}/*)
     foreach(FILE ${FILES})
-        if (${ARGC} GREATER_EQUAL 3)
+        if (${ARGC} GREATER_EQUAL 4)
             get_filename_component(FILE_NAME ${FILE} NAME)
-            Cool__target_copy_file(${TARGET} ${FILE} ${ARGV2}/${FILE_NAME})
+            Cool__target_copy_file(${TARGET} ${EXE_TARGET} ${FILE} ${ARGV3}/${FILE_NAME})
         else()
-            Cool__target_copy_file(${TARGET} ${FILE})
+            Cool__target_copy_file(${TARGET} ${EXE_TARGET} ${FILE})
         endif()
     endforeach()
 endfunction()
