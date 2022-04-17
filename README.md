@@ -8,33 +8,33 @@ Example usage:
 
 ```cmake
 include("CMakeUtils/files_and_folders.cmake")
-Cool__target_copy_folder(${PROJECT_NAME} "my_assets")
+Cool__target_copy_folder(${PROJECT_NAME} ${PROJECT_NAME} "my_assets")
 ```
 
 ## files_and_folders
 
-### target_copy_folder(TARGET FOLDER OUT_DIR?)
+### Cool__target_copy_folder(EXE_TARGET TARGET FOLDER OUT_DIR?)
 
 Unlike the default CMake functions this one will re-copy the files of the folder whenever they change or a file is added
 
-Copies FOLDER and all its files to the directory where the executable of your TARGET will be created (a.k.a. the output directory of your target).
-FOLDER can be either an absolute or a relative path. If it is relative it will be relative to ${CMAKE_SOURCE_DIR}.
-You can optionally specify a third argument to control the output directory, relative to the output directory of your target. 
+Copies FOLDER and all its files to the directory where the executable of your EXE_TARGET will be created (a.k.a. the output directory of your target). TARGET is the target defined by the current CMakeLists.txt; this will be the same as EXE_TARGET if you are writting an executable, but if a library needs to copy folders then TARGET will be the target of the library, and EXE_TARGET will be the target of the executable that uses this library.<br/>
+FOLDER can be either an absolute or a relative path. If it is relative it will be relative to CMAKE_SOURCE_DIR (a.k.a. the top-level CMakeLists.txt).<br/>
+You can optionally specify a fourth argument to control the output directory, relative to the output directory of your EXE_TARGET. 
 
 ```cmake
-Cool__target_copy_folder(${PROJECT_NAME} "my_assets")
+Cool__target_copy_folder(${PROJECT_NAME} "my_assets") # Copies "my_assets" to "my_assets"
 ```
 
 ```cmake
-Cool__target_copy_folder(${PROJECT_NAME} "my_assets" "out")
+Cool__target_copy_folder(${PROJECT_NAME} "my_assets" "out") # Copies "my_assets" to "out"
 ```
-### Cool__target_copy_file(TARGET FILE OUT_DIR?)
+### Cool__target_copy_file(EXE_TARGET TARGET FILE OUT_DIR?)
 
 Unlike the default CMake functions this one will re-copy the file whenever it changes.
 
-Copies FILE to the directory where the executable of your TARGET will be created (a.k.a. the output directory of your target).
-FILE can be either an absolute or a relative path. If it is relative it will be relative to ${CMAKE_SOURCE_DIR}.
-You can optionally specify a third argument to control the output directory (and file name), relative to the output directory of your target. 
+Copies FILE to the directory where the executable of your EXE_TARGET will be created (a.k.a. the output directory of your target). TARGET is the target defined by the current CMakeLists.txt; this will be the same as EXE_TARGET if you are writting an executable, but if a library needs to copy a file  then TARGET will be the target of the library, and EXE_TARGET will be the target of the executable that uses this library.<br/>
+FILE can be either an absolute or a relative path. If it is relative it will be relative to CMAKE_SOURCE_DIR (a.k.a. the top-level CMakeLists.txt).<br/>
+You can optionally specify a fourth argument to control the output directory and file name, relative to the output directory of your EXE_TARGET. 
 
 ```cmake
 Cool__target_copy_file(${PROJECT_NAME} "my_config.json")
@@ -44,7 +44,7 @@ Cool__target_copy_file(${PROJECT_NAME} "my_config.json")
 Cool__target_copy_file(${PROJECT_NAME} "my_config.json" "out/some_config.json")
 ```
 
-### create_file_if_it_doesnt_exist(FILE)
+### Cool__create_file_if_it_doesnt_exist(FILE)
 
 Creates FILE if it doesn't already exist.
 

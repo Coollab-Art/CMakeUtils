@@ -19,7 +19,7 @@ function(Cool__target_copy_file_absolute_paths
 endfunction()
 
 function(Cool__target_copy_file
-         TARGET EXE_TARGET
+         EXE_TARGET TARGET
          FILE
 )
     # Get OUT_FILE as an optional parameter
@@ -40,7 +40,7 @@ function(Cool__target_copy_file
 endfunction()
 
 function(Cool__target_copy_folder 
-        TARGET EXE_TARGET
+        EXE_TARGET TARGET
         FOLDER)
     # Get the part of the folder path relative to CMAKE_SOURCE_DIR (the top-level CMakeLists.txt)
     cmake_path(RELATIVE_PATH FOLDER BASE_DIRECTORY ${CMAKE_SOURCE_DIR} OUTPUT_VARIABLE FOLDER_RELATIVE_PATH)
@@ -54,9 +54,9 @@ function(Cool__target_copy_folder
     foreach(FILE ${FILES})
         if (${ARGC} GREATER_EQUAL 4)
             get_filename_component(FILE_NAME ${FILE} NAME)
-            Cool__target_copy_file(${TARGET} ${EXE_TARGET} ${FILE} ${ARGV3}/${FILE_NAME})
+            Cool__target_copy_file(${EXE_TARGET} ${TARGET} ${FILE} ${ARGV3}/${FILE_NAME})
         else()
-            Cool__target_copy_file(${TARGET} ${EXE_TARGET} ${FILE})
+            Cool__target_copy_file(${EXE_TARGET} ${TARGET} ${FILE})
         endif()
     endforeach()
 endfunction()
