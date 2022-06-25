@@ -8,10 +8,11 @@ function(Cool__target_copy_file_absolute_paths
          OUTPUT_FILE
 )
     string(MD5 DUMMY_OUTPUT_NAME "${INPUT_FILE}${TARGET}")
+    set(DUMMY_OUTPUT_NAME timestamp_${DUMMY_OUTPUT_NAME})
     add_custom_command(
         COMMENT "Copying \"${INPUT_FILE}\" to \"${OUTPUT_FILE}\""
         OUTPUT ${DUMMY_OUTPUT_NAME}
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${DUMMY_OUTPUT_NAME} # Create a dummy directory that CMake will use as a timestamp reference to know if the actual file has changed, when it checks for the OUTPUT (unfortunately OUTPUT can't use a generator expression so we can't use our actual output file as the OUTPUT)
+        COMMAND ${CMAKE_COMMAND} -E touch ${DUMMY_OUTPUT_NAME} # Create a dummy file that CMake will use as a timestamp reference to know if the actual file has changed, when it checks for the OUTPUT (unfortunately OUTPUT can't use a generator expression so we can't use our actual output file as the OUTPUT)
         COMMAND ${CMAKE_COMMAND} -E copy ${INPUT_FILE} ${OUTPUT_FILE} # Actual copy of the file to the destination
         MAIN_DEPENDENCY ${INPUT_FILE}
     )
