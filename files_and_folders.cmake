@@ -15,6 +15,7 @@ function(Cool__target_copy_file_absolute_paths
         COMMAND ${CMAKE_COMMAND} -E touch "${DUMMY_OUTPUT_NAME}" # Create a dummy file that CMake will use as a timestamp reference to know if the actual file has changed, when it checks for the OUTPUT (unfortunately OUTPUT can't use a generator expression so we can't use our actual output file as the OUTPUT)
         COMMAND ${CMAKE_COMMAND} -E copy "${INPUT_FILE}" "${OUTPUT_FILE}" # Actual copy of the file to the destination
         MAIN_DEPENDENCY ${INPUT_FILE}
+        VERBATIM
     )
     target_sources(${TARGET} PRIVATE ${INPUT_FILE}) # Required for the custom command to be run when we build our target
 endfunction()
