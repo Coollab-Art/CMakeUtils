@@ -7,7 +7,7 @@ function(Cool__target_copy_file_absolute_paths
          INPUT_FILE
          OUTPUT_FILE
 )
-    string(MD5 DUMMY_OUTPUT_NAME "${INPUT_FILE}${TARGET}")
+    string(MD5 DUMMY_OUTPUT_NAME "${INPUT_FILE}${OUTPUT_FILE}${TARGET}")
     set(DUMMY_OUTPUT_NAME timestamp_${DUMMY_OUTPUT_NAME})
     add_custom_command(
         COMMENT "Copying \"${INPUT_FILE}\" to \"${OUTPUT_FILE}\""
