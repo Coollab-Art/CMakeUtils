@@ -44,22 +44,26 @@ function(Cool__target_copy_file
         ${OUT_FILE})
 endfunction()
 
-function(Cool__target_copy_folder 
-        TARGET
-        FOLDER)
+function(Cool__target_copy_folder
+    TARGET
+    FOLDER)
     # Get the part of the folder path relative to CMAKE_SOURCE_DIR (the top-level CMakeLists.txt)
     cmake_path(RELATIVE_PATH FOLDER BASE_DIRECTORY ${CMAKE_SOURCE_DIR} OUTPUT_VARIABLE FOLDER_RELATIVE_PATH)
-    if (NOT FOLDER_RELATIVE_PATH)
+
+    if(NOT FOLDER_RELATIVE_PATH)
         set(FOLDER_RELATIVE_PATH ${FOLDER})
     endif()
+
     # Get the absolute folder path
     set(FOLDER_ABSOLUTE_PATH ${CMAKE_SOURCE_DIR}/${FOLDER_RELATIVE_PATH})
+
     # Copy each file
     file(GLOB_RECURSE FILES CONFIGURE_DEPENDS ${FOLDER_ABSOLUTE_PATH}/*)
+
     foreach(FILE ${FILES})
-        if (${ARGC} GREATER_EQUAL 3)
-            get_filename_component(FILE_NAME ${FILE} NAME)
-            Cool__target_copy_file(${TARGET} ${FILE} ${ARGV2}/${FILE_NAME})
+        if(${ARGC} GREATER_EQUAL 3)
+            cmake_path(RELATIVE_PATH FILE BASE_DIRECTORY ${FOLDER_ABSOLUTE_PATH} OUTPUT_VARIABLE FILE_RELATIVE_PATH)
+            Cool__target_copy_file(${TARGET} ${FILE} ${ARGV2}/${FILE_RELATIVE_PATH})
         else()
             Cool__target_copy_file(${TARGET} ${FILE})
         endif()
