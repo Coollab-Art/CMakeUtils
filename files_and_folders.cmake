@@ -24,17 +24,20 @@ function(Cool__target_copy_file
          TARGET
          FILE
 )
+    # Get the part of the file path relative to the top-level CMakeLists.txt
+    cmake_path(RELATIVE_PATH FILE BASE_DIRECTORY ${CMAKE_SOURCE_DIR} OUTPUT_VARIABLE FILE_RELATIVE_PATH)
+
+    if(NOT FILE_RELATIVE_PATH)
+        set(FILE_RELATIVE_PATH ${FILE})
+    endif()
+
     # Get OUT_FILE as an optional parameter
     if (${ARGC} GREATER_EQUAL 3)
         set(OUT_FILE $<TARGET_FILE_DIR:${TARGET}>/${ARGV2})
     else()
-        # Get the part of the file path relative to the top-level CMakeLists.txt
-        cmake_path(RELATIVE_PATH FILE BASE_DIRECTORY ${CMAKE_SOURCE_DIR} OUTPUT_VARIABLE FILE_RELATIVE_PATH)
-        if (NOT FILE_RELATIVE_PATH)
-            set(FILE_RELATIVE_PATH ${FILE})
-        endif()
         set(OUT_FILE $<TARGET_FILE_DIR:${TARGET}>/${FILE_RELATIVE_PATH})
     endif()
+
     # Add the copy command
     Cool__target_copy_file_absolute_paths(${TARGET}
         ${CMAKE_SOURCE_DIR}/${FILE_RELATIVE_PATH}
