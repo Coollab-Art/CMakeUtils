@@ -1,5 +1,9 @@
 # /!\ NB: you need at least CMake version 3.20 for these functions to work
 
+function(Cool__create_file_if_it_doesnt_exist FILE)
+    file(APPEND ${FILE} "")
+endfunction()
+
 #! Copies INPUT_FILE to OUTPUT_FILE whenever the INPUT_FILE has changed
 #  Both INPUT_FILE and OUTPUT_FILE must be absolute paths
 function(Cool__target_copy_file_absolute_paths
@@ -9,6 +13,7 @@ function(Cool__target_copy_file_absolute_paths
 )
     string(MD5 DUMMY_OUTPUT_NAME "${INPUT_FILE}${OUTPUT_FILE}${TARGET}")
     set(DUMMY_OUTPUT_NAME timestamp_${DUMMY_OUTPUT_NAME})
+    Cool__create_file_if_it_doesnt_exist(DUMMY_OUTPUT_NAME)
     add_custom_command(
         COMMENT "Copying \"${INPUT_FILE}\" to \"${OUTPUT_FILE}\""
         OUTPUT ${DUMMY_OUTPUT_NAME}
@@ -68,8 +73,4 @@ function(Cool__target_copy_folder
             Cool__target_copy_file(${TARGET} ${FILE})
         endif()
     endforeach()
-endfunction()
-
-function(Cool__create_file_if_it_doesnt_exist FILE)
-    file(APPEND ${FILE} "")
 endfunction()
